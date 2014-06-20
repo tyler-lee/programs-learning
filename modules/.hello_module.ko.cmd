@@ -1,0 +1,1 @@
+cmd_/home/tyler/programs/modules/hello_module.ko := ld -r -m elf_x86_64 -T /usr/lib/modules/3.15.1-1-ARCH/build/scripts/module-common.lds --build-id  -o /home/tyler/programs/modules/hello_module.ko /home/tyler/programs/modules/hello_module.o /home/tyler/programs/modules/hello_module.mod.o

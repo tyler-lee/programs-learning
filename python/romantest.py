@@ -1,6 +1,7 @@
 import roman
 import unittest
 
+################### KnownValue #####################
 class KnownValue(unittest.TestCase):
     known_values = ( (1, 'I'),
                      (2, 'II'),
@@ -57,7 +58,11 @@ class KnownValue(unittest.TestCase):
                      (3844, 'MMMDCCCXLIV'),
                      (3888, 'MMMDCCCLXXXVIII'),
                      (3940, 'MMMCMXL'),
-                     (3999, 'MMMCMXCIX'))
+                     (3999, 'MMMCMXCIX'),
+                     (4000, 'MMMM'),
+                     (4500, 'MMMMD'),
+                     (4888, 'MMMMDCCCLXXXVIII'),
+                     (4999, 'MMMMCMXCIX'))
 
     def test_to_roman_known_values(self):
         '''to_roman should give known result to known input '''
@@ -71,6 +76,7 @@ class KnownValue(unittest.TestCase):
             self.assertEqual(result, digit_numeral)
 
 
+################### ToRomanBadInput #####################
 class ToRomanBadInput(unittest.TestCase):
     def test_too_large(self):
         '''to_roman shoud fail with too large input'''
@@ -89,6 +95,7 @@ class ToRomanBadInput(unittest.TestCase):
         self.assertRaises(roman.NotIntergerError, roman.to_roman, 0.5)
 
 
+################### RoundtripCheck #####################
 class RoundtripCheck(unittest.TestCase):
     def test_roundtrip(self):
         '''test from_roman(to_roman(n)) == n for all n'''
@@ -96,6 +103,32 @@ class RoundtripCheck(unittest.TestCase):
             roman_numeral = roman.to_roman(digit_numeral)
             result = roman.from_roman(roman_numeral)
             self.assertEqual(digit_numeral, result)
+
+
+################### FromRomanBadInput #####################
+class FromRomanBadInput(unittest.TestCase):
+    def test_too_many_repeated_numerals(self):
+        '''from_roman should fail with too many repeated numerals'''
+        for s in ('MMMMM', 'DD', 'CCCC', 'LL', 'XXXX', 'VV', 'IIII'):
+            self.assertRaises(roman.InvalidRomanNumeralError, roman.from_roman, s)
+
+    def test_repeated_pairs(self):
+        '''from_roman should fail with repeated pairs of numerals'''
+        for s in ('CMCM', 'CDCD', 'XCXC', 'XLXL', 'IXIX', 'IVIV'):
+            self.assertRaises(roman.InvalidRomanNumeralError, roman.from_roman, s)
+
+    def test_malformed_antecedents(self):
+        '''from_roman should fail with malformed antecedents'''
+        for s in ('IIMXCC', 'VX', 'DCM', 'CMM', 'IVIV', 'MCMC', 'XCX', 'IVI', 'LM', 'LD', 'LC'):
+            self.assertRaises(roman.InvalidRomanNumeralError, roman.from_roman, s)
+
+    def test_blank(self):
+        '''from_roman should fail with blank string'''
+        self.assertRaises(roman.InvalidRomanNumeralError, roman.from_roman, '')
+
+    def test_non_string(self):
+        '''from_roman should fail with non-string'''
+        self.assertRaises(roman.InvalidRomanNumeralError, roman.from_roman, 123)
 
 
 if __name__ == '__main__':

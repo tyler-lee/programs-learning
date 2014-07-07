@@ -1,5 +1,4 @@
-class Fib:
-    '''生成Fibonacci数列的迭代器'''
+'''class Fib:
 
     def __init__(self, max):
         self.max = max
@@ -15,4 +14,9 @@ class Fib:
             raise StopIteration
         self.a, self.b = self.b, self.a + self.b
         return fib
-
+'''
+def fib(n):
+    if n in (0,1):
+        return n
+    else:
+        return fib(n-1) + fib(n-2)

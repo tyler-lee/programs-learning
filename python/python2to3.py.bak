@@ -1,0 +1,2 @@
+print >>sys.stderr, 1, 2, 3
+print >> sys.stderr, 1, 2, 3

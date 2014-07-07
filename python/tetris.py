@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # tetris.py
 import sys
 import random
